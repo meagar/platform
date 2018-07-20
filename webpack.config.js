@@ -6,7 +6,7 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
 });
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: "./src/client/index.tsx",
   output: {
     filename: "bundle.js",
     path: __dirname
