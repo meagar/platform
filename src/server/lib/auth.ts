@@ -1,18 +1,10 @@
 import { Request, Response } from "express";
 import * as passport from "passport";
+import * as JWT from "jsonwebtoken";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
-import * as expressSession from "express-session";
 
 const auth = {
   init: () => {
-    passport.serializeUser(function(user, done) {
-      done(null, user);
-    });
-
-    passport.deserializeUser(function(user, done) {
-      done(null, user);
-    });
-
     passport.use(
       new GoogleStrategy(
         {
@@ -31,13 +23,16 @@ const auth = {
       )
     );
 
-    const session = expressSession({
-      secret: "foobar",
-      resave: false,
-      saveUninitialized: true
-    });
+    return passport;
+  },
 
-    return { passport, session };
+  issueJWT: (user: any) => {
+    const payload = { sub: user.id };
+    const secretKey = new Buffer(
+      process.env.JWT_SECRET_KEY as string,
+      "base64"
+    );
+    return JWT.sign(payload, secretKey, { expiresIn: "30m" });
   },
 
   ensureAuthenticated: (req: Request, res: Response, next: Function) => {

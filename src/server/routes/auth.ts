@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as passport from "passport";
+import auth from "../lib/auth";
 
 const router = Router();
 
@@ -13,10 +14,12 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "/"
+    failureRedirect: "/",
+    session: false
   }),
   (req, res) => {
-    res.redirect("http://localhost:8080");
+    const token = auth.issueJWT(req.user);
+    res.send({ token });
   }
 );
 

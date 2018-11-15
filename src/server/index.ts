@@ -8,9 +8,8 @@ dotenv.config();
 const app: express.Application = express();
 const port: any = process.env.PORT || 3001;
 
-const { session, passport } = auth.init();
+const passport = auth.init();
 
-app.use(session);
 app.use(passport.initialize());
 
 app.use("/auth", authRoutes);
