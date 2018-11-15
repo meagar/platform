@@ -18,6 +18,10 @@ app.use("/auth", authRoutes);
 
 const template = new TemplateEngine();
 
+app.get("/status", (req, res) => {
+  res.send({status: 'success'})
+});
+
 app.use("/login", (req, res) => {
   res.send(template.render('login', { locals: { name: 'bob' }}))
 });
