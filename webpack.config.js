@@ -23,5 +23,10 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"]
   },
+  devServer: {
+    proxy: {
+      "/auth": "http://localhost:3001"
+    }
+  },
   plugins: [htmlWebpackPlugin]
 };
